@@ -1,0 +1,8 @@
+import {
+  "anthropic/sdk_moonbit",
+  "moonbitlang/async",
+}
+
+options(
+  "is-main": true,
+)

@@ -1,0 +1,9 @@
+import {
+  "anthropic/sdk_moonbit",
+  "moonbitlang/async",
+  "moonbitlang/core/json",
+}
+
+options(
+  "is-main": true,
+)

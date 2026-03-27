@@ -1,0 +1,407 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "anthropic/sdk-moonbit"
+
+import {
+  "moonbitlang/async/http",
+}
+
+// Values
+pub const AI_PROMPT : String = "\n\nAssistant:"
+
+pub const DEFAULT_ANTHROPIC_VERSION : String = "2023-06-01"
+
+pub const DEFAULT_BASE_URL : String = "https://api.anthropic.com"
+
+pub const DEFAULT_MAX_RETRIES : Int = 2
+
+pub const DEFAULT_TIMEOUT_MS : Int = 60_000
+
+pub const HUMAN_PROMPT : String = "\n\nHuman:"
+
+// Errors
+pub suberror AnthropicError {
+  ClientError(String)
+  InvalidBaseUrl(String)
+  MissingAuthentication
+  ConnectionError(String)
+  TimeoutError(String)
+  JsonError(String)
+  ProtocolError(String)
+  ApiStatusError(Int, String, ApiErrorPayload)
+  BadRequest(ApiErrorPayload)
+  AuthenticationFailed(ApiErrorPayload)
+  PermissionDenied(ApiErrorPayload)
+  NotFound(ApiErrorPayload)
+  Conflict(ApiErrorPayload)
+  RequestTooLarge(ApiErrorPayload)
+  UnprocessableEntity(ApiErrorPayload)
+  RateLimited(ApiErrorPayload)
+  Overloaded(ApiErrorPayload)
+  InternalServer(ApiErrorPayload)
+}
+pub impl Show for AnthropicError
+pub impl ToJson for AnthropicError
+
+// Types and methods
+pub struct ApiErrorPayload {
+  type_ : String?
+  message : String?
+  request_id : String?
+  raw : Json?
+}
+pub impl Show for ApiErrorPayload
+pub impl ToJson for ApiErrorPayload
+
+pub struct BatchRequest {
+  custom_id : String
+  params : Json
+}
+pub impl Show for BatchRequest
+
+pub struct BatchesApi {
+  client : Client
+  is_beta : Bool
+}
+pub async fn BatchesApi::cancel(Self, String, options? : RequestOptions) -> MessageBatch raise AnthropicError
+pub async fn BatchesApi::create(Self, Array[BatchRequest], options? : RequestOptions) -> MessageBatch raise AnthropicError
+pub async fn BatchesApi::delete(Self, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn BatchesApi::list(Self, params? : ListParams, options? : RequestOptions) -> Page[MessageBatch] raise AnthropicError
+pub async fn BatchesApi::results(Self, String, options? : RequestOptions) -> JsonlReader raise AnthropicError
+pub async fn BatchesApi::retrieve(Self, String, options? : RequestOptions) -> MessageBatch raise AnthropicError
+pub impl Show for BatchesApi
+
+pub struct BetaApi {
+  client : Client
+}
+pub fn BetaApi::files(Self) -> FilesApi
+pub fn BetaApi::messages(Self) -> MessagesApi
+pub fn BetaApi::models(Self) -> ModelsApi
+pub fn BetaApi::skills(Self) -> SkillsApi
+pub impl Show for BetaApi
+
+pub struct Client {
+  config : ClientConfig
+  parsed_base_url : ParsedBaseUrl
+}
+pub fn Client::beta(Self) -> BetaApi
+pub fn Client::completions(Self) -> CompletionsApi
+pub fn Client::from_env(base_url? : String, timeout_ms? : Int, max_retries? : Int, default_headers? : Map[String, String], default_query? : Map[String, String]) -> Self raise AnthropicError
+pub fn Client::messages(Self) -> MessagesApi
+pub fn Client::models(Self) -> ModelsApi
+pub fn Client::new(api_key? : String, auth_token? : String, base_url? : String, timeout_ms? : Int, max_retries? : Int, default_headers? : Map[String, String], default_query? : Map[String, String]) -> Self raise AnthropicError
+pub impl Show for Client
+
+pub struct ClientConfig {
+  api_key : String?
+  auth_token : String?
+  base_url : String
+  timeout_ms : Int
+  max_retries : Int
+  default_headers : Map[String, String]
+  default_query : Map[String, String]
+}
+pub impl Show for ClientConfig
+
+pub struct Completion {
+  id : String?
+  type_ : String?
+  completion : String?
+  stop_reason : String?
+  model : String?
+  raw : Json
+}
+pub impl Show for Completion
+
+pub struct CompletionCreateParams {
+  max_tokens_to_sample : Int
+  model : String
+  prompt : String
+  metadata : Json?
+  stop_sequences : Array[String]?
+  temperature : Double?
+  top_k : Int?
+  top_p : Double?
+}
+pub impl Show for CompletionCreateParams
+
+pub struct CompletionStream {
+  mut connection : StreamConnection?
+  chunks : Array[Completion]
+}
+pub fn CompletionStream::close(Self) -> Unit
+pub fn CompletionStream::get_final_text(Self) -> String
+pub async fn CompletionStream::next(Self) -> Completion? raise AnthropicError
+pub async fn CompletionStream::until_done(Self) -> Unit raise AnthropicError
+
+pub struct CompletionsApi {
+  client : Client
+}
+pub async fn CompletionsApi::create(Self, CompletionCreateParams, options? : RequestOptions) -> Completion raise AnthropicError
+pub async fn CompletionsApi::stream(Self, CompletionCreateParams, options? : RequestOptions) -> CompletionStream raise AnthropicError
+pub impl Show for CompletionsApi
+
+pub struct CountTokensParams {
+  messages : Array[MessageInput]
+  model : String
+  system : Json?
+  tools : Array[Json]?
+  thinking : Json?
+  tool_choice : Json?
+  output_config : Json?
+  cache_control : Json?
+}
+pub impl Show for CountTokensParams
+
+pub struct CursorListParams {
+  limit : Int?
+  page : String?
+  source : String?
+}
+pub impl Show for CursorListParams
+
+pub struct DeletedResult {
+  id : String?
+  type_ : String?
+  deleted : Bool?
+  raw : Json
+}
+pub impl Show for DeletedResult
+
+pub struct FileMetadata {
+  id : String
+  filename : String?
+  mime_type : String?
+  size_bytes : Int?
+  created_at : String?
+  downloadable : Bool?
+  raw : Json
+}
+pub impl Show for FileMetadata
+
+pub struct FilesApi {
+  client : Client
+}
+pub async fn FilesApi::delete(Self, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn FilesApi::download(Self, String, options? : RequestOptions) -> Bytes raise AnthropicError
+pub async fn FilesApi::list(Self, params? : ListParams, options? : RequestOptions) -> Page[FileMetadata] raise AnthropicError
+pub async fn FilesApi::retrieve_metadata(Self, String, options? : RequestOptions) -> FileMetadata raise AnthropicError
+pub async fn FilesApi::upload(Self, MultipartFile, options? : RequestOptions) -> FileMetadata raise AnthropicError
+pub impl Show for FilesApi
+
+pub struct JsonlReader {
+  mut connection : StreamConnection?
+}
+pub fn JsonlReader::close(Self) -> Unit
+pub async fn JsonlReader::next(Self) -> Json? raise AnthropicError
+
+pub struct ListParams {
+  after_id : String?
+  before_id : String?
+  limit : Int?
+}
+pub impl Show for ListParams
+
+pub struct Message {
+  id : String?
+  type_ : String?
+  role : String?
+  model : String?
+  content : Array[Json]
+  stop_reason : String?
+  stop_sequence : String?
+  usage : Usage?
+  raw : Json
+}
+pub fn Message::text(Self) -> String
+pub impl Show for Message
+
+pub struct MessageBatch {
+  id : String
+  type_ : String?
+  processing_status : String?
+  request_counts : Json?
+  raw : Json
+}
+pub impl Show for MessageBatch
+
+pub struct MessageCreateParams {
+  max_tokens : Int
+  messages : Array[MessageInput]
+  model : String
+  system : Json?
+  metadata : Json?
+  stop_sequences : Array[String]?
+  temperature : Double?
+  top_k : Int?
+  top_p : Double?
+  tools : Array[Json]?
+  tool_choice : Json?
+  thinking : Json?
+  output_config : Json?
+  cache_control : Json?
+  container : Json?
+  inference_geo : String?
+  service_tier : String?
+  mcp_servers : Array[Json]?
+  context_management : Json?
+  speed : String?
+  output_format : Json?
+}
+pub impl Show for MessageCreateParams
+
+pub struct MessageInput {
+  role : String
+  content : Json
+}
+pub impl Show for MessageInput
+
+pub struct MessageStream {
+  mut connection : StreamConnection?
+  mut snapshot : Json?
+  mut final_text : String
+}
+pub fn MessageStream::close(Self) -> Unit
+pub fn MessageStream::get_final_message(Self) -> Message? raise AnthropicError
+pub fn MessageStream::get_final_text(Self) -> String
+pub async fn MessageStream::next(Self) -> SseEvent? raise AnthropicError
+pub async fn MessageStream::next_text(Self) -> String? raise AnthropicError
+pub async fn MessageStream::until_done(Self) -> Unit raise AnthropicError
+
+pub struct MessageTokensCount {
+  input_tokens : Int
+  raw : Json
+}
+pub impl Show for MessageTokensCount
+
+pub struct MessagesApi {
+  client : Client
+  is_beta : Bool
+}
+pub fn MessagesApi::batches(Self) -> BatchesApi
+pub async fn MessagesApi::count_tokens(Self, CountTokensParams, options? : RequestOptions) -> MessageTokensCount raise AnthropicError
+pub async fn MessagesApi::create(Self, MessageCreateParams, options? : RequestOptions) -> Message raise AnthropicError
+pub async fn MessagesApi::stream(Self, MessageCreateParams, options? : RequestOptions) -> MessageStream raise AnthropicError
+pub impl Show for MessagesApi
+
+pub struct ModelInfo {
+  id : String
+  display_name : String?
+  type_ : String?
+  created_at : String?
+  raw : Json
+}
+pub impl Show for ModelInfo
+
+pub struct ModelsApi {
+  client : Client
+  is_beta : Bool
+}
+pub async fn ModelsApi::list(Self, params? : ListParams, options? : RequestOptions) -> Page[ModelInfo] raise AnthropicError
+pub async fn ModelsApi::retrieve(Self, String, options? : RequestOptions) -> ModelInfo raise AnthropicError
+pub impl Show for ModelsApi
+
+pub struct MultipartFile {
+  field_name : String
+  filename : String
+  content_type : String
+  data : Bytes
+}
+pub async fn MultipartFile::from_path(String, field_name? : String, filename? : String, content_type? : String) -> Self
+pub impl Show for MultipartFile
+
+pub struct Page[T] {
+  data : Array[T]
+  first_id : String?
+  last_id : String?
+  has_more : Bool
+}
+pub impl[T : Show] Show for Page[T]
+
+type ParsedBaseUrl
+pub impl Show for ParsedBaseUrl
+
+type RawResponse
+pub impl Show for RawResponse
+
+pub struct RequestOptions {
+  headers : Map[String, String]?
+  query : Map[String, String]?
+  body : Json?
+  timeout_ms : Int?
+}
+pub impl Show for RequestOptions
+
+pub struct SkillCreateParams {
+  display_title : String?
+  files : Array[MultipartFile]
+}
+pub impl Show for SkillCreateParams
+
+pub struct SkillInfo {
+  id : String
+  display_title : String?
+  created_at : String?
+  raw : Json
+}
+pub impl Show for SkillInfo
+
+pub struct SkillVersionCreateParams {
+  skill_id : String
+  files : Array[MultipartFile]
+  display_title : String?
+}
+pub impl Show for SkillVersionCreateParams
+
+pub struct SkillVersionInfo {
+  id : String
+  skill_id : String?
+  created_at : String?
+  raw : Json
+}
+pub impl Show for SkillVersionInfo
+
+pub struct SkillVersionsApi {
+  client : Client
+}
+pub async fn SkillVersionsApi::create(Self, SkillVersionCreateParams, options? : RequestOptions) -> SkillVersionInfo raise AnthropicError
+pub async fn SkillVersionsApi::delete(Self, String, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn SkillVersionsApi::list(Self, String, params? : CursorListParams, options? : RequestOptions) -> Page[SkillVersionInfo] raise AnthropicError
+pub async fn SkillVersionsApi::retrieve(Self, String, String, options? : RequestOptions) -> SkillVersionInfo raise AnthropicError
+pub impl Show for SkillVersionsApi
+
+pub struct SkillsApi {
+  client : Client
+}
+pub async fn SkillsApi::create(Self, SkillCreateParams, options? : RequestOptions) -> SkillInfo raise AnthropicError
+pub async fn SkillsApi::delete(Self, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn SkillsApi::list(Self, params? : CursorListParams, options? : RequestOptions) -> Page[SkillInfo] raise AnthropicError
+pub async fn SkillsApi::retrieve(Self, String, options? : RequestOptions) -> SkillInfo raise AnthropicError
+pub fn SkillsApi::versions(Self) -> SkillVersionsApi
+pub impl Show for SkillsApi
+
+pub struct SseEvent {
+  event : String
+  type_ : String?
+  data_text : String
+  data : Json?
+}
+pub impl Show for SseEvent
+
+pub struct StreamConnection {
+  client : @http.Client
+  response : @http.Response
+}
+
+pub struct Usage {
+  input_tokens : Int?
+  output_tokens : Int?
+  cache_creation_input_tokens : Int?
+  cache_read_input_tokens : Int?
+  raw : Json
+}
+pub impl Show for Usage
+
+// Type aliases
+
+// Traits
+

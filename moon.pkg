@@ -1,0 +1,17 @@
+import {
+  "moonbitlang/core/json",
+  "moonbitlang/core/buffer",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/env",
+  "moonbitlang/x/sys" @sys,
+  "moonbitlang/async",
+  "moonbitlang/async/fs",
+  "moonbitlang/async/http",
+  "moonbitlang/async/io",
+}
+
+options(
+  targets: {
+    "env_native.mbt": ["native"],
+  },
+)

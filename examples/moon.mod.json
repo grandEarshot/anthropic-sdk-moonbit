@@ -1,0 +1,17 @@
+{
+  "name": "anthropic/sdk_moonbit_examples",
+  "version": "0.1.0",
+  "deps": {
+    "moonbitlang/async": "0.16.8",
+    "anthropic/sdk_moonbit": {
+      "path": ".."
+    }
+  },
+  "readme": "README.md",
+  "repository": "",
+  "license": "MIT",
+  "keywords": ["anthropic", "moonbit", "examples"],
+  "description": "Examples for anthropic-sdk-moonbit",
+  "source": ".",
+  "preferred-target": "native"
+}
