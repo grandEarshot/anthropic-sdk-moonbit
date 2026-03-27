@@ -4,7 +4,7 @@ Async-first Anthropic SDK for MoonBit `native` target.
 
 MoonBit package name:
 
-- `anthropic/sdk_moonbit`
+- `grandEarshot/anthropic-sdk-moonbit`
 
 Current scope:
 
@@ -23,7 +23,7 @@ Basic usage:
 
 ```moonbit
 import {
-  "anthropic/sdk_moonbit",
+  "grandEarshot/anthropic-sdk-moonbit" @sdk_moonbit,
   "moonbitlang/async",
   "moonbitlang/core/json",
 }

@@ -1,14 +1,15 @@
 {
-  "name": "anthropic/sdk_moonbit",
+  "name": "grandEarshot/anthropic-sdk-moonbit",
   "version": "0.1.0",
   "deps": {
     "moonbitlang/async": "0.16.8",
     "moonbitlang/x": "0.4.41"
   },
-  "readme": "README.mbt.md",
+  "readme": "README.md",
   "repository": "https://github.com/grandEarshot/anthropic-sdk-moonbit",
   "license": "MIT",
   "keywords": ["anthropic", "claude", "sdk", "api"],
   "description": "Anthropic SDK for MoonBit on native target.",
-  "preferred-target": "native"
+  "preferred-target": "native",
+  "exclude": ["examples"]
 }

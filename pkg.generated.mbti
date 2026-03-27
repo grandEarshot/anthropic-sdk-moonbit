@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "anthropic/sdk-moonbit"
+package "grandEarshot/anthropic-sdk-moonbit"
 
 import {
   "moonbitlang/async/http",
@@ -56,6 +56,7 @@ pub struct BatchRequest {
   custom_id : String
   params : Json
 }
+pub fn BatchRequest::new(String, Json) -> Self
 pub impl Show for BatchRequest
 
 pub struct BatchesApi {
@@ -63,11 +64,16 @@ pub struct BatchesApi {
   is_beta : Bool
 }
 pub async fn BatchesApi::cancel(Self, String, options? : RequestOptions) -> MessageBatch raise AnthropicError
+pub async fn BatchesApi::cancel_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn BatchesApi::create(Self, Array[BatchRequest], options? : RequestOptions) -> MessageBatch raise AnthropicError
+pub async fn BatchesApi::create_raw(Self, Array[BatchRequest], options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn BatchesApi::delete(Self, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn BatchesApi::delete_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn BatchesApi::list(Self, params? : ListParams, options? : RequestOptions) -> Page[MessageBatch] raise AnthropicError
+pub async fn BatchesApi::list_raw(Self, params? : ListParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn BatchesApi::results(Self, String, options? : RequestOptions) -> JsonlReader raise AnthropicError
 pub async fn BatchesApi::retrieve(Self, String, options? : RequestOptions) -> MessageBatch raise AnthropicError
+pub async fn BatchesApi::retrieve_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub impl Show for BatchesApi
 
 pub struct BetaApi {
@@ -122,6 +128,7 @@ pub struct CompletionCreateParams {
   top_k : Int?
   top_p : Double?
 }
+pub fn CompletionCreateParams::new(Int, String, String, metadata? : Json, stop_sequences? : Array[String], temperature? : Double, top_k? : Int, top_p? : Double) -> Self
 pub impl Show for CompletionCreateParams
 
 pub struct CompletionStream {
@@ -137,6 +144,8 @@ pub struct CompletionsApi {
   client : Client
 }
 pub async fn CompletionsApi::create(Self, CompletionCreateParams, options? : RequestOptions) -> Completion raise AnthropicError
+pub async fn CompletionsApi::create_raw(Self, CompletionCreateParams, options? : RequestOptions) -> RawResponse raise AnthropicError
+pub async fn CompletionsApi::create_stream(Self, CompletionCreateParams, options? : RequestOptions) -> CompletionStream raise AnthropicError
 pub async fn CompletionsApi::stream(Self, CompletionCreateParams, options? : RequestOptions) -> CompletionStream raise AnthropicError
 pub impl Show for CompletionsApi
 
@@ -150,6 +159,7 @@ pub struct CountTokensParams {
   output_config : Json?
   cache_control : Json?
 }
+pub fn CountTokensParams::new(Array[MessageInput], String, system? : Json, tools? : Array[Json], thinking? : Json, tool_choice? : Json, output_config? : Json, cache_control? : Json) -> Self
 pub impl Show for CountTokensParams
 
 pub struct CursorListParams {
@@ -157,6 +167,7 @@ pub struct CursorListParams {
   page : String?
   source : String?
 }
+pub fn CursorListParams::new(limit? : Int, page? : String, source? : String) -> Self
 pub impl Show for CursorListParams
 
 pub struct DeletedResult {
@@ -182,10 +193,15 @@ pub struct FilesApi {
   client : Client
 }
 pub async fn FilesApi::delete(Self, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn FilesApi::delete_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn FilesApi::download(Self, String, options? : RequestOptions) -> Bytes raise AnthropicError
+pub async fn FilesApi::download_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn FilesApi::list(Self, params? : ListParams, options? : RequestOptions) -> Page[FileMetadata] raise AnthropicError
+pub async fn FilesApi::list_raw(Self, params? : ListParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn FilesApi::retrieve_metadata(Self, String, options? : RequestOptions) -> FileMetadata raise AnthropicError
+pub async fn FilesApi::retrieve_metadata_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn FilesApi::upload(Self, MultipartFile, options? : RequestOptions) -> FileMetadata raise AnthropicError
+pub async fn FilesApi::upload_raw(Self, MultipartFile, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub impl Show for FilesApi
 
 pub struct JsonlReader {
@@ -199,6 +215,7 @@ pub struct ListParams {
   before_id : String?
   limit : Int?
 }
+pub fn ListParams::new(after_id? : String, before_id? : String, limit? : Int) -> Self
 pub impl Show for ListParams
 
 pub struct Message {
@@ -247,12 +264,14 @@ pub struct MessageCreateParams {
   speed : String?
   output_format : Json?
 }
+pub fn MessageCreateParams::new(Int, Array[MessageInput], String, system? : Json, metadata? : Json, stop_sequences? : Array[String], temperature? : Double, top_k? : Int, top_p? : Double, tools? : Array[Json], tool_choice? : Json, thinking? : Json, output_config? : Json, cache_control? : Json, container? : Json, inference_geo? : String, service_tier? : String, mcp_servers? : Array[Json], context_management? : Json, speed? : String, output_format? : Json) -> Self
 pub impl Show for MessageCreateParams
 
 pub struct MessageInput {
   role : String
   content : Json
 }
+pub fn MessageInput::new(String, Json) -> Self
 pub impl Show for MessageInput
 
 pub struct MessageStream {
@@ -279,7 +298,10 @@ pub struct MessagesApi {
 }
 pub fn MessagesApi::batches(Self) -> BatchesApi
 pub async fn MessagesApi::count_tokens(Self, CountTokensParams, options? : RequestOptions) -> MessageTokensCount raise AnthropicError
+pub async fn MessagesApi::count_tokens_raw(Self, CountTokensParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn MessagesApi::create(Self, MessageCreateParams, options? : RequestOptions) -> Message raise AnthropicError
+pub async fn MessagesApi::create_raw(Self, MessageCreateParams, options? : RequestOptions) -> RawResponse raise AnthropicError
+pub async fn MessagesApi::create_stream(Self, MessageCreateParams, options? : RequestOptions) -> MessageStream raise AnthropicError
 pub async fn MessagesApi::stream(Self, MessageCreateParams, options? : RequestOptions) -> MessageStream raise AnthropicError
 pub impl Show for MessagesApi
 
@@ -297,7 +319,9 @@ pub struct ModelsApi {
   is_beta : Bool
 }
 pub async fn ModelsApi::list(Self, params? : ListParams, options? : RequestOptions) -> Page[ModelInfo] raise AnthropicError
+pub async fn ModelsApi::list_raw(Self, params? : ListParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn ModelsApi::retrieve(Self, String, options? : RequestOptions) -> ModelInfo raise AnthropicError
+pub async fn ModelsApi::retrieve_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub impl Show for ModelsApi
 
 pub struct MultipartFile {
@@ -307,6 +331,7 @@ pub struct MultipartFile {
   data : Bytes
 }
 pub async fn MultipartFile::from_path(String, field_name? : String, filename? : String, content_type? : String) -> Self
+pub fn MultipartFile::new(String, Bytes, field_name? : String, content_type? : String) -> Self
 pub impl Show for MultipartFile
 
 pub struct Page[T] {
@@ -320,7 +345,15 @@ pub impl[T : Show] Show for Page[T]
 type ParsedBaseUrl
 pub impl Show for ParsedBaseUrl
 
-type RawResponse
+pub struct RawResponse {
+  status : Int
+  reason : String
+  headers : Map[String, String]
+  body : Bytes
+}
+pub fn RawResponse::json(Self) -> Json raise AnthropicError
+pub fn RawResponse::request_id(Self) -> String?
+pub fn RawResponse::text(Self) -> String
 pub impl Show for RawResponse
 
 pub struct RequestOptions {
@@ -329,12 +362,14 @@ pub struct RequestOptions {
   body : Json?
   timeout_ms : Int?
 }
+pub fn RequestOptions::new(headers? : Map[String, String], query? : Map[String, String], body? : Json, timeout_ms? : Int) -> Self
 pub impl Show for RequestOptions
 
 pub struct SkillCreateParams {
   display_title : String?
   files : Array[MultipartFile]
 }
+pub fn SkillCreateParams::new(Array[MultipartFile], display_title? : String) -> Self
 pub impl Show for SkillCreateParams
 
 pub struct SkillInfo {
@@ -350,6 +385,7 @@ pub struct SkillVersionCreateParams {
   files : Array[MultipartFile]
   display_title : String?
 }
+pub fn SkillVersionCreateParams::new(String, Array[MultipartFile], display_title? : String) -> Self
 pub impl Show for SkillVersionCreateParams
 
 pub struct SkillVersionInfo {
@@ -364,18 +400,26 @@ pub struct SkillVersionsApi {
   client : Client
 }
 pub async fn SkillVersionsApi::create(Self, SkillVersionCreateParams, options? : RequestOptions) -> SkillVersionInfo raise AnthropicError
+pub async fn SkillVersionsApi::create_raw(Self, SkillVersionCreateParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn SkillVersionsApi::delete(Self, String, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn SkillVersionsApi::delete_raw(Self, String, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn SkillVersionsApi::list(Self, String, params? : CursorListParams, options? : RequestOptions) -> Page[SkillVersionInfo] raise AnthropicError
+pub async fn SkillVersionsApi::list_raw(Self, String, params? : CursorListParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn SkillVersionsApi::retrieve(Self, String, String, options? : RequestOptions) -> SkillVersionInfo raise AnthropicError
+pub async fn SkillVersionsApi::retrieve_raw(Self, String, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub impl Show for SkillVersionsApi
 
 pub struct SkillsApi {
   client : Client
 }
 pub async fn SkillsApi::create(Self, SkillCreateParams, options? : RequestOptions) -> SkillInfo raise AnthropicError
+pub async fn SkillsApi::create_raw(Self, SkillCreateParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn SkillsApi::delete(Self, String, options? : RequestOptions) -> DeletedResult raise AnthropicError
+pub async fn SkillsApi::delete_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn SkillsApi::list(Self, params? : CursorListParams, options? : RequestOptions) -> Page[SkillInfo] raise AnthropicError
+pub async fn SkillsApi::list_raw(Self, params? : CursorListParams, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub async fn SkillsApi::retrieve(Self, String, options? : RequestOptions) -> SkillInfo raise AnthropicError
+pub async fn SkillsApi::retrieve_raw(Self, String, options? : RequestOptions) -> RawResponse raise AnthropicError
 pub fn SkillsApi::versions(Self) -> SkillVersionsApi
 pub impl Show for SkillsApi
 

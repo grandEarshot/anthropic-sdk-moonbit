@@ -1,5 +1,5 @@
 import {
-  "anthropic/sdk_moonbit",
+  "grandEarshot/anthropic-sdk-moonbit" @sdk_moonbit,
   "moonbitlang/async",
 }
 
