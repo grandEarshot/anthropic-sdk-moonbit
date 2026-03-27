@@ -8,7 +8,7 @@
     }
   },
   "readme": "README.md",
-  "repository": "",
+  "repository": "https://github.com/grandEarshot/anthropic-sdk-moonbit",
   "license": "MIT",
   "keywords": ["anthropic", "moonbit", "examples"],
   "description": "Examples for anthropic-sdk-moonbit",

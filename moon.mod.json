@@ -6,7 +6,7 @@
     "moonbitlang/x": "0.4.41"
   },
   "readme": "README.mbt.md",
-  "repository": "",
+  "repository": "https://github.com/grandEarshot/anthropic-sdk-moonbit",
   "license": "MIT",
   "keywords": ["anthropic", "claude", "sdk", "api"],
   "description": "Anthropic SDK for MoonBit on native target.",
